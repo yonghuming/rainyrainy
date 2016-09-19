@@ -85,14 +85,19 @@ class Callback extends Controller
 
     public function bind(){
         echo '请求参数：';
-        dump(input());
+      //  dump(input());
         echo 'name:'.input('stu_name');
         $stu = new StudentModel;
         $rst = $stu->where('stu_name',input('stu_name'))->find();
         if($rst && $rst['stu_name'] == input('stu_name') && $rst['stu_number']==input('stu_number') && $rst['class']==input('class')){
-            dump($rst);
+            $stu->openid = session('openid');
+            $stu->save();
+            foreach($stu as $key => $v){
+                session($key,$v);
+            }
+            return $this->redirect('Index/index');
         }else{
-            return $stu->getError();
+            return $this->error('姓名、座号，班级不匹配');
         }
 
     }

@@ -46,7 +46,7 @@ class Callback extends Controller
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
         $res = curl_exec($ch);
         curl_close($ch);
-
+//如何判断返回解析的值是否成功
 //解析json
         $user_obj = json_decode($res,true);
         $_SESSION['user'] = $user_obj;
@@ -55,13 +55,17 @@ class Callback extends Controller
 
         $rst = $user->where('openid',$openid)->find();
         if($rst){
+            //在确定授权成功的前提下这段代码都是要执行的
             session('user','langxm');
             $this->redirect('Index/index');
         }else{
             $user->data($user_obj);
-
+            //如果没有注册是要跟用户的信息绑定的
             if($user->save()){
-                return '用户[ ' . $user->nickname . ':' . $user->id . ' ]新增成功';
+                session('user','langxm');
+                //添加到数据库之后，提交表单，验证身份
+                return $this->fetch();
+                //$this->redirect('Index/index');
             }else{
                 return $user->getError();
             }

@@ -3,9 +3,12 @@ namespace app\index\controller;
 
 use think\Controller;
 
+
 class Index extends  Controller
 {
     public function index()
+
+
     {
         if(session('?user')){
             return 'welcom you:'.session('user');

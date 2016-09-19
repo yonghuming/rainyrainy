@@ -52,8 +52,16 @@ class Callback extends Controller
         $_SESSION['user'] = $user_obj;
 
         $user = new UserModel;
+        UserModel::where('openid','oWkLpt2Iko8020TyLyzSE6dApN0Q')->delete();
 
         $rst = $user->where('openid',$openid)->find();
+        //是否授权，没有授权授权，然后看是否绑定，没有绑定绑定
+        //这样可以保证安全性，
+        //即便授权了，也要验证，姓名，班级，座号字段是否齐全
+        //这样可以保证准确性
+        //绑定的时候要跟也有的信息进行鉴定
+        //所以学生信息要放到单独的表里面
+        //当然可以直接插到一张表里
         if($rst){
             //在确定授权成功的前提下这段代码都是要执行的
             session('user','langxm');
@@ -71,5 +79,11 @@ class Callback extends Controller
             }
         }
 
+    }
+
+    public function bind(){
+        echo '请求参数：';
+        dump(input());
+        echo 'name:'.input('name');
     }
 }

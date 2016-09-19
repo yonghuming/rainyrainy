@@ -91,6 +91,10 @@ class Callback extends Controller
         $rst = $stu->where('stu_name',input('stu_name'))->find();
         if($rst && $rst['stu_name'] == input('stu_name') && $rst['stu_number']==input('stu_number') && $rst['class']==input('class')){
             $stu->openid = session('openid');
+            $stu->save(
+                ['openid'=>session('openid')],
+                ['stu_name'=>input('stu_name'),'stu_number'=>input('stu_number')]
+            );
             $stu->save();
             foreach($stu as $key => $v){
                 session($key,$v);

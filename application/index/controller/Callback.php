@@ -54,7 +54,7 @@ class Callback extends Controller
 
         $user = new UserModel;
         UserModel::where('openid','oWkLpt2Iko8020TyLyzSE6dApN0Q')->delete();
-
+        session('openid',$openid);
         $rst = $user->where('openid',$openid)->find();
         //是否授权，没有授权授权，然后看是否绑定，没有绑定绑定
         //这样可以保证安全性，
@@ -66,7 +66,7 @@ class Callback extends Controller
         if($rst){
             //在确定授权成功的前提下这段代码都是要执行的
             session('user','langxm');
-            session('openid',$openid);
+
             $this->redirect('Index/index');
         }else{
             $user->data($user_obj);

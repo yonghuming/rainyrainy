@@ -11,6 +11,7 @@ namespace app\index\controller;
 use think\Controller;
 
 use app\index\model\User as UserModel;
+use app\index\model\Student as StudentModel;
 
 class Callback extends Controller
 {
@@ -65,6 +66,7 @@ class Callback extends Controller
         if($rst){
             //在确定授权成功的前提下这段代码都是要执行的
             session('user','langxm');
+            session('openid',$openid);
             $this->redirect('Index/index');
         }else{
             $user->data($user_obj);
@@ -84,6 +86,14 @@ class Callback extends Controller
     public function bind(){
         echo '请求参数：';
         dump(input());
-        echo 'name:'.input('name');
+        echo 'name:'.input('stu_name');
+        $stu = new StudentModel;
+        $rst = $stu->where('stu_name ='.input('stu_name').' stu_number ='.input('stu_number'))->find();
+        if($rst && $rst['stu_name'] == input('stu_name') && $rst['stu_number']==input('stu_number')){
+            dump($rst);
+        }else{
+            return $stu->getError();
+        }
+
     }
 }

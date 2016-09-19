@@ -91,7 +91,10 @@ class Callback extends Controller
         $rst = $stu->where('stu_name',input('stu_name'))->find();
         if($rst && $rst['stu_name'] == input('stu_name') && $rst['stu_number']==input('stu_number') && $rst['class']==input('class')){
 
-        
+            //待完善，待完善的是，绑定后吧openid插入到student表中
+            //对于tp5的插入写法不是很理解
+            //后面的再完善
+            //然后就是在首页读取课程，选课条件了
             $stu->update(['stu_name'=>input('stu_name'),'stu_number'=>input('stu_number'),'openid'=>session('openid')]);
             $stu->save();
             foreach($stu as $key => $v){

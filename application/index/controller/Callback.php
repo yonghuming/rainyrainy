@@ -88,7 +88,7 @@ class Callback extends Controller
         dump(input());
         echo 'name:'.input('stu_name');
         $stu = new StudentModel;
-        $rst = $stu->where('stu_name ='.input('stu_name').' stu_number ='.input('stu_number'))->find();
+        $rst = $stu->where('stu_name ='.input('stu_name').' stu_number ="'.input('stu_number').'"')->find();
         if($rst && $rst['stu_name'] == input('stu_name') && $rst['stu_number']==input('stu_number')){
             dump($rst);
         }else{
